@@ -9,12 +9,17 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+The range finder saves the maximum and minimum values of the stream
+of data within two registers, and outputs the range between them. The
+valid bits of data occur between go and finish being asserted, and error
+is asserted if the protocol is not followed.
 
 ## How to test
 
-Explain how to use your project
+Send data sequentially through data_in, starting by asserting a go signal and
+ending with a finish signal. Once done sending data, check range to make
+sure the value is as expected and that the error signal is not asserted.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+None
