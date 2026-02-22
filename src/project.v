@@ -22,11 +22,12 @@ module tt_um_nlanderso_range_finder (
   // assign uio_oe  = 0;
 
   // // List all unused inputs to prevent warnings
-  wire _unused = &{ena, uio_in[7:2], uio_out[6:0], 1'b0};
+  wire _unused = &{ena, uio_in[7:2], 1'b0};
 
 //   assign uio_in[7:2] = 6'b0;
 //   assign uio_out[6:0] = 7'b0;
   assign uio_oe = 8'h80;
+  assign uio_out[6:0] = 7'b0;
 
   RangeFinder  #(8) rf (.data_in(ui_in), .clock(clk), .reset(~rst_n), .go(uio_in[0]), 
                        .finish(uio_in[1]), .range(uo_out), .error(uio_out[7]));

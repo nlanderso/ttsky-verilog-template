@@ -13,8 +13,6 @@ module RangeFinder
    
    // Output logic
    always_comb begin
-      range = max - min;
-
       max = prevMax;
       min = prevMin;
       // If we receive a go signal, start keeping track of data_in
@@ -25,10 +23,8 @@ module RangeFinder
       // While evaluating, replace max/min with data_in if it is greater/lesser
       // than the current saved values
       else if (state == EVAL) begin
-         max = prevMax;
-         min = prevMin;
-        if (data_in > prevMax) max = data_in;
-        else if (data_in < prevMin) min = data_in;
+         if (data_in > prevMax) max = data_in;
+         if (data_in < prevMin) min = data_in;
       end
 
       error = 1'b0;
@@ -40,11 +36,12 @@ module RangeFinder
      else if (go && !prevGo && finish && !prevFinish) error = 1'b1;
       // Or if go happens a second time before finish
      else if (state == EVAL && go && !prevGo) error = 1'b1;
+
+     range = max - min;
    end
 
    // Next state logic
    always_comb begin
-      nextState = START;
       case (state)
       START: begin
          // Error if finish before go 
@@ -63,6 +60,7 @@ module RangeFinder
          if (go && !finish) nextState = EVAL;
          else nextState = ERROR;
       end
+      default: nextState = START;
       endcase
    end
 
